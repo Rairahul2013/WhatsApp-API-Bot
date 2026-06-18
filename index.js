@@ -1,4 +1,4 @@
-const { 
+Const { 
     default: makeWASocket, 
     useMultiFileAuthState, 
     DisconnectReason 
@@ -14,18 +14,16 @@ async function startBot() {
         auth: state
     });
 
-    // ---- PAIRING CODE LOGIC ----
     if (!sock.authState.creds.registered) {
-        // IDHAR APNA WHATSAPP NUMBER DAALEIN (e.g., "919876543210")
-        const phoneNumber = "91XXXXXXXXXX"; 
+        // 👇 IDHAR '91' KE AAGE APNA 10-DIGIT KA NUMBER LIKHIYE
+        const phoneNumber = "919161277551"; 
         setTimeout(async () => {
             let code = await sock.requestPairingCode(phoneNumber);
             code = code?.match(/.{1,4}/g)?.join("-") || code;
-            console.log(\n\n👉 APNA PAIRING CODE: ${code} 👈\n\n);
+            console.log("CODE_START:" + code + ":CODE_END");
         }, 3000);
     }
 
-    // ---- COMMANDS HANDLING ----
     sock.ev.on('messages.upsert', async m => {
         const msg = m.messages[0];
         if (!msg.message || msg.key.fromMe) return;
@@ -34,19 +32,16 @@ async function startBot() {
         const textMessage = msg.message.conversation  msg.message.extendedTextMessage?.text  "";
         const command = textMessage.toLowerCase().trim();
 
-        // 1. Ping Command
         if (command === '.ping') {
             await sock.sendMessage(remoteJid, { text: 'Pong! Bot active hai. 🚀' });
         } 
-        // 2. Menu Command
         else if (command === '.menu' || command === '.help') {
             await sock.sendMessage(remoteJid, { 
                 text: '✨ *Elaina Bot Menu* ✨\n\n💬 *.ping* - Check bot status\nℹ️ *.info* - About bot' 
             });
         }
-        // 3. Info Command
         else if (command === '.info') {
-            await sock.sendMessage(remoteJid, { text: 'Main ek 24/7 online rehne wala WhatsApp Bot hoon jise Koyeb par host kiya gaya hai!' });
+            await sock.sendMessage(remoteJid, { text: 'Main ek 24/7 online rehne wala WhatsApp Bot hoon!' });
         }
     });
 
