@@ -1,4 +1,4 @@
-Const { 
+const { 
     default: makeWASocket, 
     useMultiFileAuthState, 
     DisconnectReason 
@@ -15,7 +15,6 @@ async function startBot() {
     });
 
     if (!sock.authState.creds.registered) {
-        // 👇 IDHAR '91' KE AAGE APNA 10-DIGIT KA NUMBER LIKHIYE
         const phoneNumber = "919161277551"; 
         setTimeout(async () => {
             let code = await sock.requestPairingCode(phoneNumber);
